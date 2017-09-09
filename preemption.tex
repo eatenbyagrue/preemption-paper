@@ -4,17 +4,19 @@
 \usepackage[a4paper,lmargin={3cm},rmargin={3.5cm}, tmargin={2.5cm},bmargin = {2.5cm}]{geometry}
 \usepackage{setspace}
 \usepackage{indentfirst}
-% \onehalfspacing
+\onehalfspacing
 \usepackage{enumitem}
 \usepackage{amsmath, amssymb}
 \usepackage{graphicx}
 
 \newcommand{\mh}[1]{\noindent\emph{#1}}
 \newcommand{\Ssa}{S_{\sigma\alpha}}
-\newcommand{\sa}{\sigma\alpha}
-\newcommand\given[1][]{\:#1\vert\:}
-
+\newcommand{\Stsa}{S^t_{\sigma\alpha}}
+\newcommand{\sa}{{\sigma\alpha}}
+\newcommand{\given}[1][]{\:#1\vert\:}
+\newcommand{\Sm}{\Stsa m^t_{\sa}}
 \renewcommand{\i}[1]{\emph{#1}}
+\renewcommand{\a}{\alpha}
 
 \usepackage[backend=biber, authordate, ibidtracker=context]{biblatex-chicago}
 \addbibresource{preemption.bib}
@@ -74,10 +76,9 @@ with normalising beta function $B(a,b)$ and parameters $a, b$ chosen such that $
 \end{description}
 
 \begin{figure}[ht]
-	\centering
+	\centering\label{fig1}
     \includegraphics[width=0.5\textwidth]{Figure_1.png}
-	\caption{Example Trust function}
-    \label{fig1}
+	\caption{Example beta distributed trust function with parameters a=LOOK b=UP }
 \end{figure}
 
 Apart from inquiries, a source can also be another agent, through testimony. An agent $\alpha$ therefore trusts herself at time $t$ with $\tau^t_{\iota\alpha}$ and another agent $\beta$ with $\tau^t_{\beta\alpha}$.
@@ -85,21 +86,71 @@ Apart from inquiries, a source can also be another agent, through testimony. An 
 The exchange of information and the evolution of the trust functions and the credences in $p$ are the most important going-ons in this model, which I'll summarize next.
 
 \subsection{Inquiry and Communication} 
-The passing of time is modeled in discrete time steps. At each time step, each agent updates her credence and her trust function. The new information which motivates these changes are messages from the sources, which the agent receives if
+
+time progess is modeled in discrete steps. At each time step, each agent updates her credence and her trust function. The new information which motivates these changes are messages from the sources, which the agent receives if
 \begin{enumerate}[label = (\roman*)]
     \item the agent inquires herself with probability $P(S_{\iota\alpha})$. The result of the inquiry is determined by the agent's aptitude. Or,
     \item another agent $\beta$ is connected to agent $\alpha$ through the social network and decides to share her opinion. This is modeled, in slight deviation from the Olsson-Vallinder model, by the following conditions: 
         \begin{enumerate}[label = (\alph*)]
             \item Agent $\beta$ is sufficiently confident in $p$ resp. $\neg p$, determined by some faily high threshold value for her credence, and
-            \item agent $\beta$ received new information herself in the same time step. In the current implementation, this just is only fulfilled by own inquiry.  
+            \item agent $\beta$ received herself new information in the same time step. In the current implementation, this is only fulfilled by own inquiry.  
         \end{enumerate}
 \end{enumerate}
 
 EXPLAIN why only when new information!!
 
-\section{}
+Testimony is, of course, a matter of language, and is most plausibly modeled as a binary judgment, that is, either $p$ or $\neg p$. While there are certainly interesting cases where the testimony involves credences or levels of confidences, e.g. \ a weather forecaster stating her belief in the chance of rain tomorrow, this does in my view not apply to  
 
-Model of a social network. Agents with links. Agents have beliefs that are updated over time.
+\subsection{Updating}
+
+Each time step, the agents update their credences and trust functions. Updating the credences is based on new messages the agent received this time step: $\Stsa m^t_{\sa}$, where $m^t_{\sa}$ is the message that $\alpha$ received from $\sigma$ (which can represent $\alpha$'s own inquiry or another agent's testimony) at $t$, and is either $p$ or $\neg p$. An agents can receive multiple messages per time step, but only one message per source, so we have to account for that as well: 
+
+The updating rule is given by conditionalization:
+\[
+    C^{t+1}_\alpha (p) = C^t_\alpha (p \given \bigwedge_{\sigma \in \Sigma^t_\alpha} \Stsa m^t_{\sa}),
+\]
+
+where $\Sigma^t_\alpha$ is the set of sources that send a message to $\alpha$ at $t$.
+
+With the assumption that sources are independent given the target proposition, the update calculates to
+\[
+    C^t_\a (p \given \bigwedge \Sm) 
+    = \frac{ C^t_\a (p) \prod C^t_\a (\Sm \given p) }
+    { C^t_\a (p) \prod C^t_\a (\Sm \given p) +  C^t_\a (\neg p) \prod C^t_\a (\Sm \given \neg p) }.
+\]
+
+Here, again, the product and big conjunct range over all sources with a message for the agent, now omitted for legibility.   
+
+The expressions about the reliability are given by:
+
+\begin{align*}
+    C^t_\a (\Stsa p \given p) &= C^t_\a (\Stsa) \langle \tau^t_{\sa} \rangle \\
+    C^t_\a (\Stsa \neg p \given p) &= C^t_\a (\Stsa) \langle \bar{\tau}^t_{\sa} \rangle \\
+    C^t_\a (\Stsa p \given \neg p) &= C^t_\a (\Stsa) \langle \bar{\tau}^t_{\sa} \rangle \\
+    C^t_\a (\Stsa \neg p \given \neg p) &= C^t_\a (\Stsa) \langle \tau^t_{\sa} \rangle,
+\end{align*}
+
+where $\langle \tau^t_{\sa} \rangle $ is the expected value of trust function $ \tau^t_{\sa} $ and ${\langle \bar{\tau}^t_{\sa} \rangle =_{df.} 1 - \langle \tau^t_{\sa} \rangle}$.\footnote{Detailed and very helpful derivations of these equations can be found in \textcite{Angere2010}, although in places I could not agree with the results. I implemented the updating mechanism as presented in this paper. There is not much room to detail the finer points here, only this much: Angere's final result on page 22 for the credence update intuitively can't be right, since the expression as stated there does not depend on the actual content of the message, that is, $p$ or $\neg p$, anymore, and instead just updates regardless, rendering the network communication ineffective.} 
+
+Upon each message received, the agents updates her trust function for that source depending on how well the message coheres with her own credence. The updated trust function can be calculated to
+\[
+    \tau^{t+1}_\sa = \tau^t_\sa (\rho) \frac{\rho \: C^t_\a (p) + (1 - \rho) C^t_\a (\neg p)}
+    {\langle \tau^t_\sa \rangle C^t_\a(p) + \langle \bar{\tau}^t_\sa \rangle C^t_\a(\neg p)}
+\]
+if $m^t_{\sa} = p$ and 
+\[
+    \tau^{t+1}_\sa = \tau^t_\sa (\rho) \frac{\rho \: C^t_\a (\neg p) + (1 - \rho) C^t_\a (p)}
+    {\langle \tau^t_\sa \rangle C^t_\a(\neg p) + \langle \bar{\tau}^t_\sa \rangle C^t_\a(p)}
+\]
+if $m^t_{\sa} = \neg p$. This entails that the trust an agents brings towards a source only changes with regards to the agents credence in p and the source's message whether p. This is one of the major shortcomings of the model, in my view, especially for the current purposes, as at no stage something like higher order evidence about the reliability of the source comes into play. 
+
+Insert example with trust function development?
+
+\subsection{Epistemic Value}
+
+
+
+
 
 Agent's properties
 Communication. Diverges from Constantin and Grundmann
