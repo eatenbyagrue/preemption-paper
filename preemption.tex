@@ -4,9 +4,9 @@
 \usepackage[a4paper,lmargin={3cm},rmargin={3.5cm}, tmargin={2.5cm},bmargin = {2.5cm}]{geometry}
 \usepackage{setspace}
 \usepackage{indentfirst}
-\onehalfspacing
-\usepackage{enumitem}
-\usepackage{amsmath, amssymb}
+    %\onehalfspacing
+    \usepackage{enumitem}
+    \usepackage{amsmath, amssymb}
 \usepackage{graphicx}
 
 \newcommand{\mh}[1]{\noindent\emph{#1}}
@@ -15,6 +15,8 @@
 \newcommand{\sa}{{\sigma\alpha}}
 \newcommand{\given}[1][]{\:#1\vert\:}
 \newcommand{\Sm}{\Stsa m^t_{\sa}}
+\newcommand{\CI}{\mathrel{\perp\mspace{-10mu}\perp}}
+\newcommand{\nCI}{\centernot{\CI}}
 \renewcommand{\i}[1]{\emph{#1}}
 \renewcommand{\a}{\alpha}
 
@@ -101,11 +103,13 @@ EXPLAIN why only when new information!!
 
 Testimony is, of course, a matter of language, and is most plausibly modeled as a binary judgment, that is, either $p$ or $\neg p$. While there are certainly interesting cases where the testimony involves credences or levels of confidences, e.g. \ a weather forecaster stating her belief in the chance of rain tomorrow, this does in my view not apply to  
 
-\subsection{Updating}
+\subsection{General Updating}
 
-Each time step, the agents update their credences and trust functions. Updating the credences is based on new messages the agent received this time step: $\Stsa m^t_{\sa}$, where $m^t_{\sa}$ is the message that $\alpha$ received from $\sigma$ (which can represent $\alpha$'s own inquiry or another agent's testimony) at $t$, and is either $p$ or $\neg p$. An agents can receive multiple messages per time step, but only one message per source, so we have to account for that as well: 
+Each time step, the agents update their credences and trust functions. Updating the credences is based on new messages the agent received this time step: $\Stsa m^t_{\sa}$, where $m^t_{\sa}$ is the message that $\alpha$ received from $\sigma$ (which can represent $\alpha$'s own inquiry or another agent's testimony) at $t$, and is either $p$ or $\neg p$. An agents can receive multiple messages per time step, but only one message per source, so we have to account for that as well. 
 
-The updating rule is given by conditionalization:
+In the central and most important deviation from the Olsson Vallinder model, I distinguish between the \i{Preemption} strategy and the \i{Total Evidence} strategy of dealing with expert testimony. In normal circumstances, both strategies involve the same standard bayesian updating rules, which I give in detail below. In the face of expert testimony they may differ, however, and I describe the requirements for differences as well as the differences themselves subsequently. 
+
+The updating rule is given by conditionalisation:
 \[
     C^{t+1}_\alpha (p) = C^t_\alpha (p \given \bigwedge_{\sigma \in \Sigma^t_\alpha} \Stsa m^t_{\sa}),
 \]
@@ -119,7 +123,7 @@ With the assumption that sources are independent given the target proposition, t
     { C^t_\a (p) \prod C^t_\a (\Sm \given p) +  C^t_\a (\neg p) \prod C^t_\a (\Sm \given \neg p) }.
 \]
 
-Here, again, the product and big conjunct range over all sources with a message for the agent, now omitted for legibility.   
+Here, again, the product and big conjunct range over all sources with a message for the agent, the subscript omitted for legibility.   
 
 The expressions about the reliability are given by:
 
@@ -132,7 +136,7 @@ The expressions about the reliability are given by:
 
 where $\langle \tau^t_{\sa} \rangle $ is the expected value of trust function $ \tau^t_{\sa} $ and ${\langle \bar{\tau}^t_{\sa} \rangle =_{df.} 1 - \langle \tau^t_{\sa} \rangle}$.\footnote{Detailed and very helpful derivations of these equations can be found in \textcite{Angere2010}, although in places I could not agree with the results. I implemented the updating mechanism as presented in this paper. There is not much room to detail the finer points here, only this much: Angere's final result on page 22 for the credence update intuitively can't be right, since the expression as stated there does not depend on the actual content of the message, that is, $p$ or $\neg p$, anymore, and instead just updates regardless, rendering the network communication ineffective.} 
 
-Upon each message received, the agents updates her trust function for that source depending on how well the message coheres with her own credence. The updated trust function can be calculated to
+Upon receiving a message, the agent updates her trust function for that source depending on how well the message coheres with her own credence. The updated trust function can be calculated to
 \[
     \tau^{t+1}_\sa = \tau^t_\sa (\rho) \frac{\rho \: C^t_\a (p) + (1 - \rho) C^t_\a (\neg p)}
     {\langle \tau^t_\sa \rangle C^t_\a(p) + \langle \bar{\tau}^t_\sa \rangle C^t_\a(\neg p)}
@@ -142,15 +146,41 @@ if $m^t_{\sa} = p$ and
     \tau^{t+1}_\sa = \tau^t_\sa (\rho) \frac{\rho \: C^t_\a (\neg p) + (1 - \rho) C^t_\a (p)}
     {\langle \tau^t_\sa \rangle C^t_\a(\neg p) + \langle \bar{\tau}^t_\sa \rangle C^t_\a(p)}
 \]
-if $m^t_{\sa} = \neg p$. This entails that the trust an agents brings towards a source only changes with regards to the agents credence in p and the source's message whether p. This is one of the major shortcomings of the model, in my view, especially for the current purposes, as at no stage something like higher order evidence about the reliability of the source comes into play. 
+if $m^t_{\sa} = \neg p$. This entails that the trust an agents brings towards a source only changes with regard to the agents credence in p and the source's message whether p. This is one of the major shortcomings of the model, in my view, especially for the current purposes, as at no stage something like higher order evidence about the reliability of the source comes into play. 
 
 Insert example with trust function development?
 
-\subsection{Epistemic Value}
+\subsection{Updating With Preemption}
+
+In certain cases, an agent who pursues the preemptive strategy differs in her updating rule from what is described above, namely when she recognizes another agent as an epistemic authority. I modeled Constantin and Grundmann's requirements for the recognition of an epistemic authority in the following way. 
+\begin{description} 
+    \item[Epistemic Authority] An agent $\alpha$ recognizes another agent $\beta$ as an epistemic authority regarding proposition $p$ at time $t$ if and only if  
+    \begin{enumerate}[label= (\roman*)]
+        \item $\langle \tau^t_{\beta\alpha} \rangle \geqslant T_A$, where $T_A$ is a reasonably high threshold of trust, and
+        \item $\langle \tau^t_{\beta\alpha} \rangle - \langle \tau^t_{\iota\alpha} \rangle \geqslant \Delta_A$, where $\Delta_A$ denotes a significant difference in trust level.
+    \end{enumerate}
+
+
+\end{description}
+    In plain English: Consider a layperson and an expert. For the layperson to regard the expert as an epistemic authority, she has to (i) regard the expert with a high amount of trust. The threshold is high, somewhere above .8. Condition (ii) requires that the expert enjoys a significantly higher trust from the layperson than the layperson trusts her own abilities to evaluate evidence. This might also be modeled as a ratio, but in this case is not crucial.
+
+As soon as an agent recognizes another as an epistemic authority, her updating pattern changes significantly. First, she stops to gather evidence herself completely. Second, instead of updating according to all her evidence and sources, she ignores all other messages and instead adopts the authority's opinion.
+
+Constantin and Grundmann do not specify a precise credence as a proper response in this case, as they assume that the layperson knows of the expert's credence. In this model, however, communication happens on a binary basis.
+ 
+I argue that the right credence for the layperson to adopt in this case is just $\langle \tau^t_{\beta\alpha} \rangle$. While it is intuitively appealing, it's also a consequence from some rather innocuous assumptions. The argument goes as follows. 
+
+\textcite[p.12]{Constantin2017} define the effect of preemption as making any evidence for or against the target proposition rationally unusable for the agent. That is, whatever first-order evidence she gathered beforehand, as soon as she recognizes an epistemic authority as such regarding that proposition, two things happen: 
+
+First, she is rationally required to disregard all her evidence. Is is quite uncontroversial to regard a credence around .5 to be rational in the case of total absence of evidence (extreme subjective Bayesians excluded). But being indifferent is certainly not a bad thing in this case. Formally, this can be described as a screening-off. Let $\beta$ be an authority for $\alpha$. Then $\a$'s evidence is preempted by $S_{\beta\a}$ iff for all (relevant) $E$, 
+\[ 
+    p \CI_{C_\a} E \given S_{\beta\a}$, 
+\]
+that is, relative to $\a$'s credence function, $p$ is independent of $E$ given $S_{\beta\a}$.
 
 
 
-
+Second, the only available evidence is the authority's testimony. The agent classically conditions on that (see below.) \subsection{Epistemic Value}
 
 Agent's properties
 Communication. Diverges from Constantin and Grundmann
