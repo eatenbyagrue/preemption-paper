@@ -14,7 +14,7 @@
 \newcommand{\Stsa}{S^t_{\sigma\alpha}}
 \newcommand{\sa}{{\sigma\alpha}}
 \newcommand{\given}[1][]{\:#1\vert\:}
-\newcommand{\Sm}{\Stsa m^t_{\sa}}
+\newcommand{\Sm}{\Stsa~m^t_{\sa}}
 \newcommand{\CI}{\mathrel{\perp\mspace{-10mu}\perp}}
 \newcommand{\nCI}{\centernot{\CI}}
 \renewcommand{\i}[1]{\emph{#1}}
@@ -46,19 +46,19 @@ Epistemic Value!
 
 The Model used in this paper follows the one proposed by \textcite{Olsson2013} rather closely. I adopt most of their formalizations and assumptions. To enable the reader to make use of the derivations in \textcite{Angere2010}, I adopt their notations as well. I summarize the model, describe how I use it for the present purposes and make note of any deviation.
 
-The core entities of the model are \i{agents} and their properties. Agents can be connected to one another, such that they form a network. Since these connections enable communication and the agents are meant to represent people, this structure can be seen as a social network.
+The core entities of the model are \i{agents} and their properties. Agents can be connected to one another, such that they form a network. Since these connections enable communication and the agents are meant to represent people, this structure can be seen as a social network, represented in some form of graph representation through an adjacency matrix.
 
-The model has certain starting parameters, which I describe below, and discrete timesteps. Each of these enable the update of properties by the rules specified further below.
+The model has certain starting parameters, which I describe below, and discrete time steps. Each of these enable the update of properties by the rules specified further below.
 
 \subsection{Starting Parameters}
 
-To keep things manageable, there is a single \i{true} target propostion $p$ which the agents have a credence $C^t_\alpha(p)$ towards. Each timestep, agents can receive information from a \i{source}. These can be (i) other agents in the social network or (ii) their own inquiry. The objective chance that an agents inquires and gets it right is called that agent $\alpha$'s \i{aptitude}: $P(S_{\iota \alpha}p \given S_{\iota \alpha} \land p)$, where $S_{\iota \alpha}$ is the chance that agent $\alpha$ inquires for evidence, regardless of the results, and $S_{\iota \alpha} p$ the chance that she inquires and her inquiry yields $p$ as a result. The chance that she inquires at all, $P(S_{\iota \alpha})$, is called her \i{activity}. For the sake of simplicity, these chances are modeled as time invariant.
+To keep things manageable, there is a single \i{true} target proposition $p$ which the agents have a credence $C^t_\alpha(p)$ towards. Each time step, agents can receive information from a \i{source}. These can be (i) other agents in the social network or (ii) their own inquiry. The objective chance that an agents inquires and gets it right is called that agent $\alpha$'s \i{aptitude}: $P(S_{\iota \alpha}p \given S_{\iota \alpha} \land p)$, where $S_{\iota \alpha}$ is the chance that agent $\alpha$ inquires for evidence, regardless of the results, and $S_{\iota \alpha} p$ the chance that she inquires and her inquiry yields $p$ as a result. The chance that she inquires at all, $P(S_{\iota \alpha})$, is called her \i{activity}. For the sake of simplicity, these chances are modeled as time invariant.
 
 Sources can be more or less reliable. The reliability is assumed to be symmetric.
 \[ 
 R_{\sigma \alpha} =_{df.} P(\Ssa p \given \Ssa \land p) = P(\Ssa \neg p \given \Ssa \land \neg p)
 \]
-This is, of course, just the agent's aptitude. 
+This is, of course, just the agent's aptitude. Note that the reliability of an agent is modeled continuously, in contrast to the binary full reliability/randomiser approach employed in \textcite[Chp. 3]{Bovens2003}, such that with a reliability value of less than $.5$ an agents inquiry would actually be negatively correlated with the truth.
 
 Each agent trusts each source to a certain extent. This is expressed in the agent's credence in the reliability of the source:
 \[ 
@@ -74,13 +74,14 @@ where $\tau^t_{\sa}: [0,1] \rightarrow \mathbb{R}^+$ is a probability density fu
 \[
     \tau^t_{\iota\alpha} (\rho) = \frac{1}{B(a,b)} \rho^{a - 1} {(1 - \rho)}^{b-1}
 \]
-with normalising beta function $B(a,b)$ and parameters $a, b$ chosen such that $\tau^t_{\iota\alpha}$ is densest around whatever a `healthy trust' amounts to, let's say 0.85. (see Fig.\ref{fig1}). Interestingly, the shape of the curve correlates with how resilient the funtion behaves upon updating. More on that below.
+with normalising beta function $B(a,b)$ and parameters $a, b$ chosen such that $\tau^t_{\iota\alpha}$ is densest around whatever a `healthy trust' amounts to, let's say 0.85 (cf.~Fig.~\ref{fig:trf}). Interestingly, the shape of the curve correlates with how resilient the funtion behaves upon updating. More on that below.
 \end{description}
 
 \begin{figure}[ht]
-	\centering\label{fig1}
+	\centering
     \includegraphics[width=0.5\textwidth]{Figure_1.png}
 	\caption{Example beta distributed trust function with parameters a=LOOK b=UP }
+    \label{fig:trf}
 \end{figure}
 
 Apart from inquiries, a source can also be another agent, through testimony. An agent $\alpha$ therefore trusts herself at time $t$ with $\tau^t_{\iota\alpha}$ and another agent $\beta$ with $\tau^t_{\beta\alpha}$.
@@ -89,12 +90,12 @@ The exchange of information and the evolution of the trust functions and the cre
 
 \subsection{Inquiry and Communication} 
 
-time progess is modeled in discrete steps. At each time step, each agent updates her credence and her trust function. The new information which motivates these changes are messages from the sources, which the agent receives if
+time progress is modeled in discrete steps. At each time step, each agent updates her credence and her trust function. The new information which motivates these changes are messages from the sources, which the agent receives if
 \begin{enumerate}[label = (\roman*)]
     \item the agent inquires herself with probability $P(S_{\iota\alpha})$. The result of the inquiry is determined by the agent's aptitude. Or,
     \item another agent $\beta$ is connected to agent $\alpha$ through the social network and decides to share her opinion. This is modeled, in slight deviation from the Olsson-Vallinder model, by the following conditions: 
         \begin{enumerate}[label = (\alph*)]
-            \item Agent $\beta$ is sufficiently confident in $p$ resp. $\neg p$, determined by some faily high threshold value for her credence, and
+            \item Agent $\beta$ is sufficiently confident in $p$ resp. $\neg p$, determined by some fairly high threshold value for her credence, and
             \item agent $\beta$ received herself new information in the same time step. In the current implementation, this is only fulfilled by own inquiry.  
         \end{enumerate}
 \end{enumerate}
@@ -117,11 +118,12 @@ The updating rule is given by conditionalisation:
 where $\Sigma^t_\alpha$ is the set of sources that send a message to $\alpha$ at $t$.
 
 With the assumption that sources are independent given the target proposition, the update calculates to
-\[
-    C^t_\a (p \given \bigwedge \Sm) 
-    = \frac{ C^t_\a (p) \prod C^t_\a (\Sm \given p) }
-    { C^t_\a (p) \prod C^t_\a (\Sm \given p) +  C^t_\a (\neg p) \prod C^t_\a (\Sm \given \neg p) }.
-\]
+\begin{equation}
+    \label{eq:upd}
+    C^t_\a (p \given \bigwedge \Sm) = \\
+     \frac{C^t_\a (p) \prod C^t_\a (\Sm \given p) }
+    {C^t_\a (p) \prod C^t_\a (\Sm \given p) +  C^t_\a (\neg p) \prod C^t_\a (\Sm \given \neg p) }.
+\end{equation}
 
 Here, again, the product and big conjunct range over all sources with a message for the agent, the subscript omitted for legibility.   
 
@@ -141,7 +143,7 @@ Upon receiving a message, the agent updates her trust function for that source d
     \tau^{t+1}_\sa = \tau^t_\sa (\rho) \frac{\rho \: C^t_\a (p) + (1 - \rho) C^t_\a (\neg p)}
     {\langle \tau^t_\sa \rangle C^t_\a(p) + \langle \bar{\tau}^t_\sa \rangle C^t_\a(\neg p)}
 \]
-if $m^t_{\sa} = p$ and 
+if $m^t_{\sa} = p$, and 
 \[
     \tau^{t+1}_\sa = \tau^t_\sa (\rho) \frac{\rho \: C^t_\a (\neg p) + (1 - \rho) C^t_\a (p)}
     {\langle \tau^t_\sa \rangle C^t_\a(\neg p) + \langle \bar{\tau}^t_\sa \rangle C^t_\a(p)}
@@ -162,36 +164,63 @@ In certain cases, an agent who pursues the preemptive strategy differs in her up
 
 
 \end{description}
-    In plain English: Consider a layperson and an expert. For the layperson to regard the expert as an epistemic authority, she has to (i) regard the expert with a high amount of trust. The threshold is high, somewhere above .8. Condition (ii) requires that the expert enjoys a significantly higher trust from the layperson than the layperson trusts her own abilities to evaluate evidence. This might also be modeled as a ratio, but in this case is not crucial.
+    In plain English: Consider a layperson and an expert. For the layperson to regard the expert as an epistemic authority, she has to (i) regard the expert with a high amount of trust. The threshold is high, somewhere above $.8$. Condition (ii) requires that the expert enjoys a significantly higher trust from the layperson than the layperson trusts her own abilities to evaluate evidence. This might also be modeled as a ratio, but in this case is not crucial.
 
 As soon as an agent recognizes another as an epistemic authority, her updating pattern changes significantly. First, she stops to gather evidence herself completely. Second, instead of updating according to all her evidence and sources, she ignores all other messages and instead adopts the authority's opinion.
 
 Constantin and Grundmann do not specify a precise credence as a proper response in this case, as they assume that the layperson knows of the expert's credence. In this model, however, communication happens on a binary basis.
  
-I argue that the right credence for the layperson to adopt in this case is just $\langle \tau^t_{\beta\alpha} \rangle$. While it is intuitively appealing, it's also a consequence from some rather innocuous assumptions. The argument goes as follows. 
+I argue that the right credence for the layperson to adopt in this case is just $\langle \tau^t_{\beta\alpha} \rangle$ (if the message is $p$, or $1 - \langle \tau^t_{\beta\alpha} \rangle$ if $\neg p$, the case is an exact analogue). While it is intuitively appealing, it's also a consequence from some rather innocuous assumptions. The argument goes as follows. 
 
 \textcite[p.12]{Constantin2017} define the effect of preemption as making any evidence for or against the target proposition rationally unusable for the agent. That is, whatever first-order evidence she gathered beforehand, as soon as she recognizes an epistemic authority as such regarding that proposition, two things happen: 
 
-First, she is rationally required to disregard all her evidence. Is is quite uncontroversial to regard a credence around .5 to be rational in the case of total absence of evidence (extreme subjective Bayesians excluded). But being indifferent is certainly not a bad thing in this case. Formally, this can be described as a screening-off. Let $\beta$ be an authority for $\alpha$. Then $\a$'s evidence is preempted by $S_{\beta\a}$ iff for all (relevant) $E$, 
+First, she is rationally required to disregard all her evidence. It is quite uncontroversial to regard a credence around $.5$ to be rational in the case of total absence of evidence (extreme subjective Bayesians excluded). But being indifferent is certainly not a bad thing in this case. Formally, this can be described as a screening-off. Let $\beta$ be an authority for $\alpha$. Then $\a$'s evidence is preempted by $S_{\beta\a}$ iff for all (relevant) evidence $E$, 
 \[ 
-    p \CI_{C_\a} E \given S_{\beta\a}$, 
+    p \CI_{C_\a} E \given S_{\beta\a}, 
 \]
-that is, relative to $\a$'s credence function, $p$ is independent of $E$ given $S_{\beta\a}$.
+that is, relative to $\a$'s credence function, $p$ is independent of $E$ given $S_{\beta\a}$. That is, the rational requirement the authority's testimony induces on the preemption strategist's credences.
+
+Second, the only available evidence is the authority's testimony. The agent classically conditions on that. Given the above, this is calculated quickly. Equation~\ref{eq:upd} reduces in this case to 
+
+\[
+    C^{t+1}_\a (p) = \frac{C^t_\a(p) \langle \tau^t_{\beta\a} \rangle}
+    {C^t_\a(p) \langle \tau^t_{\beta\a} \rangle + C^t_\a(\neg p) \langle \bar{\tau}^t_{\beta\a} \rangle}
+\]
+and because I require as mentioned $C^t_\a(p) = C^t_\a( \neg p)$, simple algebra gives 
+\[
+    C^{t+1}_\a (p) = \langle \tau^t_{\beta\a} \rangle.
+\]
+
+The trust functions update in the usual way. They are \i{not} affected by the preemption. This is, in my opinion, actually a strong suit of the model. \textcite[p. XX]{Constantin2017} describe a range of cases in which the purported authority make an  \i{outrageous} claim which is so obviously wrong that the agent should lessen her trust in the authority and do not regard her as such anymore. This is reflected in the model: If the agents beliefs something to an extremely high degree, and a purported authority says otherwise, it is possible to lower the trust in the authority and thereby make her lose her status as an authority for the agent. 
+
+\subsection{Epistemic Value}
+
+To evaluate the epistemic situation of the agents and make an actual normative judgment about which of the strategies if preferable, I adopt a veritistic position and assume that there is some epistemic merit to hold credences with a higher accuracy, that is, a higher closeness to the truth. This is not an uncontentious topic\footnote{cf. \textcite{Goldman2001} for an argument for a veritistic approach to epistemic normativity. A very readable argument against is presented in \textcite{Berker2013}.}, but I think the veritistic approach makes for a nice framework to evaluate belief states in. 
+
+How to measure epistemic value? In recent literature, the \i{Brier Score} as a quadratic scoring rule has been widely used. Of course, this is philosophy, and it's feasibility is again a contested topic\footnote{cf. \textcite{Joyce1998-JOYANV} and \textcite{Maher2002-MAHJAF} for a discussion.}, but in the present case there are only credences in a single proposition to evaluate, such that the differences aren't as pronounced. Let's define scores in the following way:
+\begin{equation*}
+    I_{BR}(C^t_\a) = {(\nu(p) - C^t_\a(p))}^2
+\end{equation*}
+where $\nu$ is the vindication function that assigns truth values ($\{0,1\}$) to propositions (at the actual world).
+A credence function $C^t_\beta$ is then epistemically more valuable than another $C^t_\gamma$ at $t$ if and only if $C^t_\beta(p) < C^t_\gamma(p)$, provided that $p$ exhausts all propositions considered. The brier score hence measures \i{inaccuracy}.
 
 
-
-Second, the only available evidence is the authority's testimony. The agent classically conditions on that (see below.) \subsection{Epistemic Value}
-
-Agent's properties
-Communication. Diverges from Constantin and Grundmann
-Reliability
-Updating etac\
 esp. \ the time step issue. \ can repeated statements of the authority really be independent of the ones before?
-Epistemic Value
 CENTRAL ASSUMPTIONS
 
 \section{Experiment}
-How to setup a specific experiment? Expert Layperson structure, how to set up credences, metadistributions, 
+
+To be able to approach the central question of the paper I created a minimal setup to work with. This just consists in three agents, set up like in Fig.~\ref{fig:el}. The edges represent available directions of communication. Additionally, each agent can inquire for herself. Experts and laypersons are modeled by different aptitudes. I refer to the expert as $\varepsilon$, the layperson employing a preemption strategy as $\a$ and the layperson employing the classical bayesian strategy as $\beta$. 
+
+\begin{figure}[ht]
+	\centering
+    \includegraphics[width=0.5\textwidth]{Expert_Layperson.png}
+	\caption{The minimalist setup of the present experiment.\label{fig:el}}
+\end{figure}
+
+The expert is much more likely to inquire correct than the layperson is, this experiment uses values of $R_{\iota\varepsilon} = 0.85$ and $R_{\iota\a} = R_{\iota\beta} = 0.5$.
+
+In each trial, both credences of the laypersons are set to the same uniformly distributed value.
 
 \section{Experiment: Results}
 
