@@ -4,9 +4,9 @@
 \usepackage[a4paper,lmargin={3cm},rmargin={3.5cm}, tmargin={2.5cm},bmargin = {2.5cm}]{geometry}
 \usepackage{setspace}
 \usepackage{indentfirst}
-    %\onehalfspacing
-    \usepackage{enumitem}
-    \usepackage{amsmath, amssymb}
+\onehalfspacing
+\usepackage{enumitem}
+\usepackage{amsmath, amssymb}
 \usepackage{graphicx}
 
 \newcommand{\mh}[1]{\noindent\emph{#1}}
@@ -69,7 +69,7 @@ Each agent trusts each source to a certain extent. This is expressed in the agen
 where $\tau^t_{\sa}: [0,1] \rightarrow \mathbb{R}^+$ is a probability density function such that 
 \[
     C^t_{\alpha}(0 \leqslant R_{\sa} \leqslant 1) =  \int_0^1 \tau^t_{\sa} (\rho) d(\rho) = 1
-\]which is a very plausible requirement on a rational credence function.\footnote{Add Stuff here about the Olsson and Vallinder Model and how theirs is slightly different.}
+\]which is a very plausible requirement on a rational credence function.\footnote{In fact, not obeying this would violate the probability axioms. For some reason, \textcite{Angere2010} as well as \textcite{Olsson2013} define the trust function as $\tau^t_{\sa}: [0,1] \rightarrow [0,1]$, such that it doesn't integrate to 1 (in all but the trivial case). I assume they are doing some hidden normalising that I am to near-sighted to see.}
 
 \begin{description}
     \item[Example.] An agent $\alpha$ with a healthy trust in her own inquisitive abilities and who is not easily swayed in this trust may have a trust function $\tau^t_{\iota\alpha}$ described by a beta distribution
@@ -82,7 +82,7 @@ with normalising beta function $B(a,b)$ and parameters $a, b$ chosen such that $
 \begin{figure}[ht]
 	\centering
     \includegraphics[width=0.5\textwidth]{Figure_1.png}
-	\caption{Example beta distributed trust function with parameters a=LOOK b=UP\label{fig:trf}}
+	\caption{Beta distributed trust function with parameters $a~=~20.825$ and $b~=~3.675$\label{fig:trf}}
 \end{figure}
 
 Apart from inquiries, a source can also be another agent, through testimony. An agent $\alpha$ therefore trusts herself at time $t$ with $\tau^t_{\iota\alpha}$ and another agent $\beta$ with $\tau^t_{\beta\alpha}$.
@@ -100,8 +100,6 @@ Time progress is modeled in discrete steps. At each time step, each agent update
             \item agent $\beta$ received herself new information in the same time step. In the current implementation, this is only fulfilled by own inquiry.  
         \end{enumerate}
 \end{enumerate}
-
-EXPLAIN why only when new information!!
 
 Testimony is, of course, a matter of language, and is most plausibly modeled as a binary judgment, that is, either $p$ or $\neg p$. While there are certainly interesting cases where the testimony involves credences or levels of confidences, e.g. \ a weather forecaster stating her belief in the chance of rain tomorrow, this does in my view not apply to  
 
@@ -129,7 +127,6 @@ With the assumption that sources are independent given the target proposition, t
 Here, again, the product and big conjunct range over all sources with a message for the agent, the subscript omitted for legibility.   
 
 The expressions about the reliability are given by:
-
 \begin{align*}
     C^t_\a (\Stsa p \given p) &= C^t_\a (\Stsa) \langle \tau^t_{\sa} \rangle \\
     C^t_\a (\Stsa \neg p \given p) &= C^t_\a (\Stsa) \langle \bar{\tau}^t_{\sa} \rangle \\
@@ -151,11 +148,9 @@ if $m^t_{\sa} = p$, and
 \]
 if $m^t_{\sa} = \neg p$. This entails that the trust an agents brings towards a source only changes with regard to the agents credence in p and the source's message whether p. This is one of the major shortcomings of the model, in my view, especially for the current purposes, as at no stage something like higher order evidence about the reliability of the source comes into play. 
 
-Insert example with trust function development?
-
 \subsection{Updating With Preemption}
 
-In certain cases, an agent who pursues the preemptive strategy differs in her updating rule from what is described above, namely when she recognizes another agent as an epistemic authority. I modeled Constantin and Grundmann's requirements for the recognition of an epistemic authority in the following way. 
+In certain cases, an agent who pursues the preemptive strategy differs in her updating rule from what is described above, namely when she recognizes another agent as an epistemic authority. I modeled the requirements in \textcite[p.9]{Constantin2017} for the recognition of an epistemic authority in the following way. 
 \begin{description} 
     \item[Epistemic Authority] An agent $\alpha$ recognizes another agent $\beta$ as an epistemic authority regarding proposition $p$ at time $t$ if and only if  
     \begin{enumerate}[label= (\roman*)]
@@ -171,7 +166,7 @@ As soon as an agent recognizes another as an epistemic authority, her updating p
 
 Constantin and Grundmann do not specify a precise credence as a proper response in this case, as they assume that the layperson knows of the expert's credence. In this model, however, communication happens on a binary basis.
  
-I argue that the right credence for the layperson to adopt in this case is just $\langle \tau^t_{\beta\alpha} \rangle$ (if the message is $p$, or $1 - \langle \tau^t_{\beta\alpha} \rangle$ if $\neg p$, the case is an exact analogue). While it is intuitively appealing, it's also a consequence from some rather innocuous assumptions. The argument goes as follows. 
+I argue that the right credence for the layperson to adopt in this case is just $\langle \tau^t_{\beta\alpha} \rangle$ (if the message is $p$, or $1 - \langle \tau^t_{\beta\alpha} \rangle$ if $\neg p$, the case is an exact analogous). While it is intuitively appealing, it's also a consequence from some rather innocuous assumptions. The argument goes as follows. 
 
 \textcite[p.12]{Constantin2017} define the effect of preemption as making any evidence for or against the target proposition rationally unusable for the agent. That is, whatever first-order evidence she gathered beforehand, as soon as she recognizes an epistemic authority as such regarding that proposition, two things happen: 
 
@@ -198,16 +193,12 @@ The trust functions update in the usual way. They are \i{not} affected by the pr
 
 To evaluate the epistemic situation of the agents and make an actual normative judgment about which of the strategies if preferable, I adopt a veritistic position and assume that there is some epistemic merit to hold credences with a higher accuracy, that is, a higher closeness to the truth. This is not an uncontentious topic\footnote{cf. \textcite{Goldman2001} for an argument for a veritistic approach to epistemic normativity. A very readable argument against is presented in \textcite{Berker2013}.}, but I think the veritistic approach makes for a nice framework to evaluate belief states in. 
 
-How to measure epistemic value? In recent literature, the \i{Brier Score} as a quadratic scoring rule has been widely used. Of course, this is philosophy, and it's feasibility is again a contested topic\footnote{cf. \textcite{Joyce1998-JOYANV} and \textcite{Maher2002-MAHJAF} for a discussion.}, but in the present case there are only credences in a single proposition to evaluate, such that the differences aren't as pronounced. Let's define scores in the following way:
+How to measure epistemic value? In recent literature, the \i{Brier Score} as a quadratic scoring rule has been widely used. Of course, this is philosophy, and it's feasibility is again a contested topic\footnote{cf. \textcite{Joyce1998-JOYANV}, \textcite{Maher2002-MAHJAF} and \textcite{Fallis2016} for a discussion.}, but in the present case there are only credences in a single proposition to evaluate, such that the differences aren't as pronounced. Let's define scores in the following way:
 \begin{equation*}
     I_{BR}(C^t_\a) = {(\nu(p) - C^t_\a(p))}^2
 \end{equation*}
 where $\nu$ is the vindication function that assigns truth values ($\{0,1\}$) to propositions (at the actual world).
 A credence function $C^t_\beta$ is then epistemically more valuable than another $C^t_\gamma$ at $t$ if and only if $C^t_\beta(p) < C^t_\gamma(p)$, provided that $p$ exhausts all propositions considered. The brier score hence measures \i{inaccuracy}.
-
-
-esp. \ the time step issue. \ can repeated statements of the authority really be independent of the ones before?
-CENTRAL ASSUMPTIONS
 
 \section{Experiment}
 
@@ -216,7 +207,7 @@ To approach the central question of the paper I set up the experiment minimally.
 \begin{figure}[ht]
 	\centering
     \includegraphics[width=0.5\textwidth]{Expert_Layperson.png}
-	\caption{The minimalist setup of the present experiment.\label{fig:el}}
+	\caption{The minimalist setup of the present experiment with an expert and two laypersons employing different updating strategies.\label{fig:el}}
 \end{figure}
 
 \subsection{Setup}
@@ -236,7 +227,7 @@ The assertion threshold, the threshold $T_A$ to recognize an authority and $\Del
 
 A single run of the experiment goes through the updating procedure for each agent as described above, through 10 discrete time steps. All changes in credence are recorded. For a snapshot of a single run of the program, see Fig.~\ref{fig:run} on page~\pageref{fig:run}.
 
-\begin{figure}[ht]
+\begin{figure}
 	\centering
 \includegraphics[width=\textwidth]{Run.png}
 \caption{Example single run of the experiment with a layperson initial credence of $0.6$. The first row shows the expert's trust function in her own inquiry and her credence, the second row shows the Bayesianist's trust functions in herself and the expert as well as her credence. The third row shows the preemption strategist's trust functions and her credence. The orange line in the bottom right plot indicates whether she recognizes the expert as an authority (1 corresponds to yes). The increasing saturation of the black indicates time progress, the darker plots are later.\label{fig:run}}
@@ -246,22 +237,26 @@ The experiment executes 10000 such runs, varying the starting conditions as desc
 
 \section{Results}
 
-\begin{figure}[h]
+\begin{figure}
 	\centering
 \includegraphics[width=0.8\textwidth]{Result.png}
 \caption{Scatter plot of the result of (for legibility only) 1000 runs with the preemption strategist as orange X-markers. It seems that the starting credence has little effect on the Brier score after 10 steps, except for $C^{10} < 0.1$. In these cases, though, it is likely that the agent did not accept the expert as an authority.\label{fig:res}}
 \end{figure}
 
-To present the results it is necessary to compare the Brier Scores. Fig.~\ref{fig:res} gives a scatter plot of the results at $t=10$. After 10000 runs, the average Brier score of the preemption strategist was $\sim0.0254$, compared to the Bayesian's $\sim0.0076$, a stunning difference. An intuitive explanation for this result can be found by a look at Fig.~\ref{fig:run}, bottom right. Agent $\beta$ starts out Bayesian and quickly reaches a credence close to 1. Accordingly, her trust in the expert rises. As soon as the authority-threshold is reached, she drops her credence to $\langle \tau^0_{\varepsilon\a} \rangle $, then continuing to adapt her credence to the trust level. This procedure is a lot slower to approach 1 than the Bayesian, such that after 10 steps the Brier score is higher.
+Fig.~\ref{fig:res} gives a scatter plot of the results at $t=10$. After 10000 runs, the average Brier score of the preemption strategist was $\sim0.0254$, compared to the Bayesian's $\sim0.0076$, a stunning difference. An intuitive explanation for this result can be found by a look at Fig.~\ref{fig:run}, bottom right. Agent $\beta$ starts out Bayesian and quickly reaches a credence close to 1. Accordingly, her trust in the expert rises. As soon as the authority-threshold is reached, she drops her credence to $\langle \tau^0_{\varepsilon\a} \rangle $, then continuing to adapt her credence to the trust level. This procedure is a lot slower to approach 1 than the Bayesian, such that after 10 steps the Brier score is higher. Note how the agent's own inquiries do not have any visible effect on the credence at all, mostly due to the low trust level the laypersons have towards there own inquiries.
 
-INTERPRETATION OF RESULTS (SHORT) AND WHAT CONCLUSIONS THIS RESULT LICENSES (NOT MANY)
+What does this result suggest? Given all the assumptions that were made are actually accurate, this results speaks against respecting Preemption and recommends instead to update like classically Bayesian. There is no evidence from a veritist standpoint to favor the Preemption view, this much is correct. Is the Total Evidence View correct for credences, after all? The big qualifier at the beginning of this paragraph should give it away: This can only be a small indicator amongst many. Most of the assumptions probably aren't correct. Given time and space constraints, I was not able to explore the parameter space further. Additional research could show that the starting conditions are merely a special case in which the Preemption view isn't as truth-directed, but in other cases, it is. Furthermore,there are different interpretations to what the preemptive updating rule should amount to. More on that and other caveats to this result in the next section.
 
 \section{Caveats, Objections and Where to Go From Here}
+\begin{itemize}
+    \item The original argument by c and g is meant to give a rationality requirement for a single or at most a few time steps. It is not clear if this is what they mean in the long run. For example: suppose i already adjusted my credence according to the authority. On a alter authority testimony, should i disregard or regard the previous authority testimony? If i alter the strategy such that it becomes classical updating again, but only with the authorities' testimony, it might be quite truth-conducive again.
 
-- 
-- the starting trust functions are kind of arbitrarily set and may influence the results. Should be put in parameter space and explored!
+    \item the starting trust functions are kind of arbitrarily set and may influence the results. Should be put in parameter space and explored! especially the shape of the curve. Or even other functions normalized to integrate to one?
+    \item The issue with repeated testimony of the same source regarded as independent
+    \item Method of communication can be explored.
+    \item Most importantly: No higher order evidence
+\end{itemize}
 
-\nocite{*}
 \printbibliography{}
 \end{document}
 
