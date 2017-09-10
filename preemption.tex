@@ -17,6 +17,7 @@
 \newcommand{\Sm}{\Stsa~m^t_{\sa}}
 \newcommand{\CI}{\mathrel{\perp\mspace{-10mu}\perp}}
 \newcommand{\nCI}{\centernot{\CI}}
+\newcommand{\Var}{\mathrm{Var}}
 \renewcommand{\i}[1]{\emph{#1}}
 \renewcommand{\a}{\alpha}
 
@@ -29,7 +30,8 @@
 \begin{document}
 
 \maketitle
-\abstract{}
+\abstract{Is expert testimony just another source of evidence? Or does it have an epistemically special status that should be reflected in how we rationally update our credences? In this paper, I compare two different strategies of dealing with expert testimony, the standard Bayesian way and another, called the Preemption View of authority testimony. To this end I extend the Olsson Vallinder model for social networks to accommodate this recently proposed strategy. Given some plausible assumptions, I surprisingly find that the result do not favor the Preemption View, although of course caveats apply and are addressed. }
+
 \section{Introduction}
 How to deal with expert testimony? Mention Goldman, Elga etc.
 
@@ -37,7 +39,7 @@ Show position by Kelly
 Show position of Constantin and Grundmann
 
 Show need to make this precise. In the case of preemption view, how to model? 
-kelly's TEV for credences is just the same as bayesianism 
+kelly's TEV for credences is just the same as Bayesianism 
 
 How to evaluate the rational strategy formally?
 Epistemic Value!
@@ -67,21 +69,20 @@ Each agent trusts each source to a certain extent. This is expressed in the agen
 where $\tau^t_{\sa}: [0,1] \rightarrow \mathbb{R}^+$ is a probability density function such that 
 \[
     C^t_{\alpha}(0 \leqslant R_{\sa} \leqslant 1) =  \int_0^1 \tau^t_{\sa} (\rho) d(\rho) = 1
-\]which is a very plausible requirement on a rational credence function.\footnote{Add Stuff here about the Olsson and Vallinder Model and how their's is slightly different.}
+\]which is a very plausible requirement on a rational credence function.\footnote{Add Stuff here about the Olsson and Vallinder Model and how theirs is slightly different.}
 
 \begin{description}
     \item[Example.] An agent $\alpha$ with a healthy trust in her own inquisitive abilities and who is not easily swayed in this trust may have a trust function $\tau^t_{\iota\alpha}$ described by a beta distribution
 \[
     \tau^t_{\iota\alpha} (\rho) = \frac{1}{B(a,b)} \rho^{a - 1} {(1 - \rho)}^{b-1}
 \]
-with normalising beta function $B(a,b)$ and parameters $a, b$ chosen such that $\tau^t_{\iota\alpha}$ is densest around whatever a `healthy trust' amounts to, let's say 0.85 (cf.~Fig.~\ref{fig:trf}). Interestingly, the shape of the curve correlates with how resilient the funtion behaves upon updating. More on that below.
+with normalising beta function $B(a,b)$ and parameters $a, b$ chosen such that $\tau^t_{\iota\alpha}$ is densest around whatever a `healthy trust' amounts to, let's say 0.85 (cf.~Fig.~\ref{fig:trf}). Interestingly, the shape of the curve correlates with how resilient the function behaves upon updating. More on that below.
 \end{description}
 
 \begin{figure}[ht]
 	\centering
     \includegraphics[width=0.5\textwidth]{Figure_1.png}
-	\caption{Example beta distributed trust function with parameters a=LOOK b=UP }
-    \label{fig:trf}
+	\caption{Example beta distributed trust function with parameters a=LOOK b=UP\label{fig:trf}}
 \end{figure}
 
 Apart from inquiries, a source can also be another agent, through testimony. An agent $\alpha$ therefore trusts herself at time $t$ with $\tau^t_{\iota\alpha}$ and another agent $\beta$ with $\tau^t_{\beta\alpha}$.
@@ -90,7 +91,7 @@ The exchange of information and the evolution of the trust functions and the cre
 
 \subsection{Inquiry and Communication} 
 
-time progress is modeled in discrete steps. At each time step, each agent updates her credence and her trust function. The new information which motivates these changes are messages from the sources, which the agent receives if
+Time progress is modeled in discrete steps. At each time step, each agent updates her credence and her trust function. The new information which motivates these changes are messages from the sources, which the agent receives if
 \begin{enumerate}[label = (\roman*)]
     \item the agent inquires herself with probability $P(S_{\iota\alpha})$. The result of the inquiry is determined by the agent's aptitude. Or,
     \item another agent $\beta$ is connected to agent $\alpha$ through the social network and decides to share her opinion. This is modeled, in slight deviation from the Olsson-Vallinder model, by the following conditions: 
@@ -210,7 +211,7 @@ CENTRAL ASSUMPTIONS
 
 \section{Experiment}
 
-To be able to approach the central question of the paper I created a minimal setup to work with. This just consists in three agents, set up like in Fig.~\ref{fig:el}. The edges represent available directions of communication. Additionally, each agent can inquire for herself. Experts and laypersons are modeled by different aptitudes. I refer to the expert as $\varepsilon$, the layperson employing a preemption strategy as $\a$ and the layperson employing the classical bayesian strategy as $\beta$. 
+To approach the central question of the paper I set up the experiment minimally. This just consists in three agents, set up like in Fig.~\ref{fig:el}. The edges represent available directions of communication. Additionally, each agent can inquire for herself. Experts and laypersons are modeled by different aptitudes. I refer to the expert as $\varepsilon$, the layperson employing a preemption strategy as $\beta$ and the layperson employing the classical bayesian strategy as $\a$. 
 
 \begin{figure}[ht]
 	\centering
@@ -218,11 +219,47 @@ To be able to approach the central question of the paper I created a minimal set
 	\caption{The minimalist setup of the present experiment.\label{fig:el}}
 \end{figure}
 
-The expert is much more likely to inquire correct than the layperson is, this experiment uses values of $R_{\iota\varepsilon} = 0.85$ and $R_{\iota\a} = R_{\iota\beta} = 0.5$.
+\subsection{Setup}
+The expert is much more likely to inquire correctly than the layperson is, this experiment uses values of $R_{\iota\varepsilon} = 0.85$ and $R_{\iota\a} = R_{\iota\beta} = 0.5$.
 
-In each trial, both credences of the laypersons are set to the same uniformly distributed value.
+In each trial, both credences of the laypersons are set to the same uniformly distributed value. The experts initial credence is given by a beta-shaped meta distribution with a mean of $ 0.85$, meaning that on average over all trials the expert's initial credence is about that value.
 
-\section{Experiment: Results}
+The expert's trust in her own inquiry is set quite high, modeled here as a beta distribution with $\langle \tau^0_{\iota\varepsilon} \rangle = 0.85$ and a low $\sigma^2 = 0.005$, indicating that the expert isn't easily influenced in her trust in herself.
+
+The laypersons are slightly overconfident, but more easily swayed, modeled as $\langle \tau^0_{\iota\a} \rangle =\langle \tau^0_{\iota\beta} \rangle = 0.55$ and $\sigma^2 = 0.01$.
+
+The initial values $\langle \tau^0_{\varepsilon\a} \rangle =\langle \tau^0_{\varepsilon\beta} \rangle = 0.8$ with $\sigma^2 = 0.01$ are already quite high.
+
+The assertion threshold, the threshold $T_A$ to recognize an authority and $\Delta_A$ have been set to $0.8, 0.82$ and $0.1$, respectively.
+
+\subsection{Running the Experiment}
+
+A single run of the experiment goes through the updating procedure for each agent as described above, through 10 discrete time steps. All changes in credence are recorded. For a snapshot of a single run of the program, see Fig.~\ref{fig:run} on page~\pageref{fig:run}.
+
+\begin{figure}[ht]
+	\centering
+\includegraphics[width=\textwidth]{Run.png}
+\caption{Example single run of the experiment with a layperson initial credence of $0.6$. The first row shows the expert's trust function in her own inquiry and her credence, the second row shows the Bayesianist's trust functions in herself and the expert as well as her credence. The third row shows the preemption strategist's trust functions and her credence. The orange line in the bottom right plot indicates whether she recognizes the expert as an authority (1 corresponds to yes). The increasing saturation of the black indicates time progress, the darker plots are later.\label{fig:run}}
+\end{figure}
+
+The experiment executes 10000 such runs, varying the starting conditions as described.
+
+\section{Results}
+
+\begin{figure}[h]
+	\centering
+\includegraphics[width=0.8\textwidth]{Result.png}
+\caption{Scatter plot of the result of (for legibility only) 1000 runs with the preemption strategist as orange X-markers. It seems that the starting credence has little effect on the Brier score after 10 steps, except for $C^{10} < 0.1$. In these cases, though, it is likely that the agent did not accept the expert as an authority.\label{fig:res}}
+\end{figure}
+
+To present the results it is necessary to compare the Brier Scores. Fig.~\ref{fig:res} gives a scatter plot of the results at $t=10$. After 10000 runs, the average Brier score of the preemption strategist was $\sim0.0254$, compared to the Bayesian's $\sim0.0076$, a stunning difference. An intuitive explanation for this result can be found by a look at Fig.~\ref{fig:run}, bottom right. Agent $\beta$ starts out Bayesian and quickly reaches a credence close to 1. Accordingly, her trust in the expert rises. As soon as the authority-threshold is reached, she drops her credence to $\langle \tau^0_{\varepsilon\a} \rangle $, then continuing to adapt her credence to the trust level. This procedure is a lot slower to approach 1 than the Bayesian, such that after 10 steps the Brier score is higher.
+
+INTERPRETATION OF RESULTS (SHORT) AND WHAT CONCLUSIONS THIS RESULT LICENSES (NOT MANY)
+
+\section{Caveats, Objections and Where to Go From Here}
+
+- 
+- the starting trust functions are kind of arbitrarily set and may influence the results. Should be put in parameter space and explored!
 
 \nocite{*}
 \printbibliography{}
