@@ -1,13 +1,15 @@
-\documentclass[11pt, a4paper]{article}
-% \documentclass[11pt, a4paper]{scrartcl}
+%\documentclass[11pt, a4paper]{article}
+\documentclass[11pt, a4paper]{scrartcl}
 
-\usepackage[a4paper,lmargin={3cm},rmargin={3.5cm}, tmargin={2.5cm},bmargin = {2.5cm}]{geometry}
+%\usepackage[a4paper,lmargin={3cm},rmargin={3.5cm}, tmargin={2.5cm},bmargin = {2.5cm}]{geometry}
 \usepackage{setspace}
 \usepackage{indentfirst}
-\onehalfspacing
 \usepackage{enumitem}
 \usepackage{amsmath, amssymb}
 \usepackage{graphicx}
+\usepackage[backend=biber, authordate, ibidtracker=context]{biblatex-chicago}
+\usepackage{fontspec}
+\usepackage{titlesec}
 
 \newcommand{\mh}[1]{\noindent\emph{#1}}
 \newcommand{\Ssa}{S_{\sigma\alpha}}
@@ -20,23 +22,85 @@
 \newcommand{\Var}{\mathrm{Var}}
 \renewcommand{\i}[1]{\emph{#1}}
 \renewcommand{\a}{\alpha}
+\renewcommand{\b}[1]{{\osfamily{}#1}}
+\newfontfamily\osfamily{Latin Modern Roman Demi}
+\setkomafont{disposition}{\osfamily}
+\setkomafont{descriptionlabel}{\osfamily}
 
-\usepackage[backend=biber, authordate, ibidtracker=context]{biblatex-chicago}
+\onehalfspacing{}
 \addbibresource{preemption.bib}
+\titleformat{\section}{\Large\bfseries\osfamily}{\thesection}{1em}{}
+\titleformat{\subsection}{\large\bfseries\osfamily}{\thesubsection}{1em}{}
 
-\title{\textbf{How to Deal With Expert Testimony?} \\Preemption View and Total Evidence View tested in the Olsson and Vallinder Model for Social Networks }
-\author{Class Paper: Formal Methods II \\ MCMP @ LMU Munich \\ Conrad Friedrich \\ \texttt{conradfriedrich@posteo.net}}
 
+\title{\textbf{How to Deal With Expert Testimony} }
+\subtitle{The Preemption View in the Olsson-Vallinder Model for Social Networks }
+\author{Conrad Friedrich \\ \texttt{conradfriedrich@posteo.net}}
+\publishers{Formal Methods II \\ MCMP @ LMU Munich \\ }
 \begin{document}
 
 \maketitle
-\abstract{Is expert testimony just another source of evidence? Or does it have an epistemically special status that should be reflected in how we rationally update our credences? In this paper, I compare two different strategies of dealing with expert testimony, the standard Bayesian way and another, called the Preemption View of authority testimony. To this end I extend the Olsson Vallinder model for social networks to accommodate this recently proposed strategy. Given some plausible assumptions, I surprisingly find that the result do not favor the Preemption View, although of course caveats apply and are addressed. }
-
+\thispagestyle{empty}
+\tableofcontents
+\newpage
 \section{Introduction}
+Is expert testimony just another source of evidence? Or does it have an epistemically special status that should be reflected in how we rationally update our credences? In this paper, I compare two different strategies of dealing with expert testimony, the standard Bayesian way and another, called the Preemption View of authority testimony. To this end I extend the Olsson Vallinder model for social networks to accommodate this recently proposed strategy. Given some plausible assumptions, I surprisingly find that the result do not favor the Preemption View, although of course caveats apply and are addressed.
+
+\subsection{Expert Testimony}
+Your doctor examines the red spots on your face and diagnoses: You have the measles! This gives you an excellent reason to believe that you actually have the measles. On the contrary, your accountant concludes that you have lupus does not give you a good reason to believe so.\footnote{This example is from \textcite{Constantin2017}.}
+
+What's the difference? Of course, your doctor knows what she is talking about. She is an \i{expert} in diagnosing patients. What is the reasonable doxastic response to an expert's testimony? This paper examines two different general types of response to a case dubbed Novice/Expert problem \parencite{Goldman2001} for those cases in which the expert is an epistemic authority for the novice, which will be defined below. Note that cases of a novice and multiple experts are \i{not} addressed in this paper, although definitely interesting.\footnote{With a few adaptions, the model could be made to fit those cases, too. As the structure is that of a social network already, it recommends itself for these kinds of questions.}
+
+The first type of doxastic response --- how to update your beliefs in the face of new evidence, in this case expert testimony --- is usually attributed to Thomas Kelly \parencite{Kelly2010-KELPDA} and called the \i{Total Evidence View}. In a rather simplistic rendition relevant to this paper, the view might be summarized as follows: The expert's testimony is added to your stock of evidence for a proposition$p$. It may have a lot of evidential weight compared to the rest of your evidence, since you are competent enough to recognize the expert as an expert. Your own evidence and considerations, however, still bear on the question whether $p$, and are aggregated with the authority's testimony. So far, so standard --- it does not seem like anything else than very standard belief updating. \textcite{Constantin2017}, following \textcite{Zagzebski2012-ZAGEAA} and \textcite{Keren2014-KERTAB}, propose a different strategy called the \i{Preemption View} based on a concept of epistemic authority, which will be discussed next.
+
+\subsection{Epistemic Authority and the Preemption View}
+
+In short, the Preemption View states that in case of authority testimony, you should rationally believe like the authority does, disregarding your own evidence in that matter. In other words, the evidential weight of your own evidence gets reduced to zero in this consideration.
+
+Let's unpack how \textcite{Constantin2017} develop this. First, the testifier has to be judged to be an expert by the agent whose doxastic attitudes are examined. They define, after \textcite{Goldman2001}, someone to be an expert in a certain area of expertise as (a) having a substantial body of evidence and (b) possessing and employing generally truth-conducive methods. Compared to a novice, an expert is an \i{epistemic superior} in her domain of expertise, someone who is more likely to be correct in matters of that domain. Epistemic superiority includes competence in evaluating evidence as well as access to substantive evidence. In particular, evidence that the expert \i{lacks} evidence that the novice possesses licences the novice to withdraw her judgment that the expert is an epistemic superior in this case. 
+
+Now, for an expert $A$ to be an \b{Epistemic Authority} for a novice $N$ in a domain $D$, $N$ has to reasonably believe that 
+\begin{enumerate}[label = (\roman*)]
+    \item $A$ is an expert about $D$, and
+    \item $A$ is epistemically superior to $N$ with respect to $D$.
+\end{enumerate}
+A domain is a set of propositions best accessible by methods the expert has at her disposal. Note that while it is likely that $A$ is \i{actually} $N$'s epistemic superior, it doesn't necessarily have to the case, since what is crucial here is $N$'s reasonable belief, which can plausibly non-veridic. 
+
+With these preliminaries in place, we can now reconstruct the central claim of \textcite{Constantin2017}. 
+\begin{description}
+    \item[Preemption View.] An authority's $A$'s testimony that $p$ in $A$'s expertise preempts all evidence of novice $N$ for or against $p$. Evidence is preempted with respect to $p$ if and only the evidence is rationally unusable for $N$ to assess $p$. 
+\end{description}
+
+In other words, the evidence is bracketed, so to speak, and loses its evidential force for $p$. It does not lose its evidential weight with respect to all other propositions, though.\footnote{As long as it Preemption View is complemented with another principle of rationality that requires something like consistency, this is not much of a problem. Otherwise it would be easy to find examples where evidential support against $p$ is preempted, but support against an obvious logical consequence of $p$, $q$, isn't, potentially leading to inconsistent belief sets.} 
+
+Let's illustrate with an example from \textcite{Constantin2017}. 
+
+\begin{singlespacing}
+\begin{quote}
+    Based on observations of everyday occurrences of pairs of events, it appears obvious to a layperson that two events are either simultaneous or they are not. Now she hears that widely respected physicists who specialize in relativity theory believe that this is not true [Such that it's not a fact of the matter whether two events are simultaneous, c.f.]. In this case, it seems completely irrational for the layperson to give any epistemic weight to her own everyday experiences in the face of the verdict of clearly identified experts. She should just follow the authority's lead. 
+\end{quote}
+\end{singlespacing}
+
+Constantin and Grundmann take this as a case clearly speaking in favor of the Preemption View, based on pre-theoretic judgments and intuitions. They argue for it by presenting the principle as a special case of another normative principle widely accepted. Specifically, preemption works off undercutting defeat. Loosely speaking, some information $d$ is an undercutting defeat for some evidence $e$ towards some proposition $p$ if it removes or weakens the evidential of $e$ for $p$. To give an oft-quoted example of \textcite{Pollock1986}: In a factory, a person looks at an assembly line of widgets that appear red. Being appeared to red-widgetly, the person believes that the widgets are red. But a worker informs the person that there's a red light shining on the widgets, defeating her belief in the color of widgets, making it irrational to hold in the light of the defeater. Preemption, then, is a result from this type of defeat: The authority's testimony undercuts the rationality of trusting your own evidence. Here lies the argument for Constantin and Grundmann's normative claim.
+
+\subsection{The Need for Precisification}
+
+While the account is promising and well-argued for in the case for flat-out, or ternary, belief, it is much less fine-tuned if you take a look at what this means for degrees of belief as a framework of doxastic states. Especially the main argument is worrisome: To my knowledge, there hasn't been a worked-out theory of undercutting defeat for degrees of belief so far. At least Constantin and Grundmann are not mentioning one. The result is that in the case of degree of belief, it is rather unclear what the conditions are for authorities to be recognized as such, or for reasons to be preempted. Worse, without a general principle of undercutting defeat to defer to, the normativity of the preemption principle stands questioned. This is not \i{necessarily} bad news for their account, as the problems do not arise for flat-out belief. But since they explicitly state to include degrees of belief in their argument, it is worth to have a closer look. 
+
+This is not the place to to give an attempt at a general account of undercutting defeat. Instead, I want to argue from a different angle: Given some plausible ways to translate the Preemption View into a precise computer model, and assume a veritist position from which to argue for the normativity of a principle, as described in the next section. But as it turns out, the experiment setup is this paper does not yield a corroborating result for the Preemption View. 
+
+\subsection{Evaluation}
+
+What kind of argument can the present paper deliver? In brief, it strives to be a normative one, of course, since the question which rational strategy to employ is a strictly normative one. The ground for this normative claim are teleological: veritist epistemology assumes truth to be a fundamental epistemic value, and since truth-directed strategies promote this value, they should be followed. This consequentialist picture is, of course, not without substantial debate,\footnote{cf. \textcite{Goldman2001} for an argument for a veritistic approach to epistemic normativity. A very readable argument against is presented in \textcite{Berker2013}.} this is philosophy after all, but the present paper is not the place to discuss this (albeit interesting) issue. The veritist account, of course, lends itself quite ideally to formal treatment, as it gives the researcher tools and methods to quantify the epistemic value of doxastic attitudes and with a consequentialist approach to normativity derive normative claims.
+
+
 How to deal with expert testimony? Mention Goldman, Elga etc.
 
 Show position by Kelly
+
 Show position of Constantin and Grundmann
+
+
 
 Show need to make this precise. In the case of preemption view, how to model? 
 kelly's TEV for credences is just the same as Bayesianism 
@@ -68,7 +132,7 @@ Each agent trusts each source to a certain extent. This is expressed in the agen
 \]
 where $\tau^t_{\sa}: [0,1] \rightarrow \mathbb{R}^+$ is a probability density function such that 
 \[
-    C^t_{\alpha}(0 \leqslant R_{\sa} \leqslant 1) =  \int_0^1 \tau^t_{\sa} (\rho) d(\rho) = 1
+    C^t_{\alpha}(0 \leqslant R_{\sa} \leqslant 1) =  \int_0^1 \tau^t_{\sa} (\rho) d\rho = 1
 \]which is a very plausible requirement on a rational credence function.\footnote{In fact, not obeying this would violate the probability axioms. For some reason, \textcite{Angere2010} as well as \textcite{Olsson2013} define the trust function as $\tau^t_{\sa}: [0,1] \rightarrow [0,1]$, such that it doesn't integrate to 1 (in all but the trivial case). I assume they are doing some hidden normalising that I am to near-sighted to see.}
 
 \begin{description}
@@ -191,7 +255,7 @@ The trust functions update in the usual way. They are \i{not} affected by the pr
 
 \subsection{Epistemic Value}
 
-To evaluate the epistemic situation of the agents and make an actual normative judgment about which of the strategies if preferable, I adopt a veritistic position and assume that there is some epistemic merit to hold credences with a higher accuracy, that is, a higher closeness to the truth. This is not an uncontentious topic\footnote{cf. \textcite{Goldman2001} for an argument for a veritistic approach to epistemic normativity. A very readable argument against is presented in \textcite{Berker2013}.}, but I think the veritistic approach makes for a nice framework to evaluate belief states in. 
+To evaluate the epistemic situation of the agents and make an actual normative judgment about which of the strategies if preferable, I adopt a veritistic position and assume that there is some epistemic merit to hold credences with a higher accuracy, that is, a higher closeness to the truth. But I think the veritistic approach makes for a nice framework to evaluate belief states in. 
 
 How to measure epistemic value? In recent literature, the \i{Brier Score} as a quadratic scoring rule has been widely used. Of course, this is philosophy, and it's feasibility is again a contested topic\footnote{cf. \textcite{Joyce1998-JOYANV}, \textcite{Maher2002-MAHJAF} and \textcite{Fallis2016} for a discussion.}, but in the present case there are only credences in a single proposition to evaluate, such that the differences aren't as pronounced. Let's define scores in the following way:
 \begin{equation*}
@@ -245,16 +309,19 @@ The experiment executes 10000 such runs, varying the starting conditions as desc
 
 Fig.~\ref{fig:res} gives a scatter plot of the results at $t=10$. After 10000 runs, the average Brier score of the preemption strategist was $\sim0.0254$, compared to the Bayesian's $\sim0.0076$, a stunning difference. An intuitive explanation for this result can be found by a look at Fig.~\ref{fig:run}, bottom right. Agent $\beta$ starts out Bayesian and quickly reaches a credence close to 1. Accordingly, her trust in the expert rises. As soon as the authority-threshold is reached, she drops her credence to $\langle \tau^0_{\varepsilon\a} \rangle $, then continuing to adapt her credence to the trust level. This procedure is a lot slower to approach 1 than the Bayesian, such that after 10 steps the Brier score is higher. Note how the agent's own inquiries do not have any visible effect on the credence at all, mostly due to the low trust level the laypersons have towards there own inquiries.
 
-What does this result suggest? Given all the assumptions that were made are actually accurate, this results speaks against respecting Preemption and recommends instead to update like classically Bayesian. There is no evidence from a veritist standpoint to favor the Preemption view, this much is correct. Is the Total Evidence View correct for credences, after all? The big qualifier at the beginning of this paragraph should give it away: This can only be a small indicator amongst many. Most of the assumptions probably aren't correct. Given time and space constraints, I was not able to explore the parameter space further. Additional research could show that the starting conditions are merely a special case in which the Preemption view isn't as truth-directed, but in other cases, it is. Furthermore,there are different interpretations to what the preemptive updating rule should amount to. More on that and other caveats to this result in the next section.
+What does this result suggest? Given all the assumptions that were made are actually accurate, this results speaks against respecting Preemption and recommends instead to update like classically Bayesian. There is no evidence from a veritist standpoint to favor the Preemption view, this much is correct. Is the Total Evidence View correct for credences, after all? The big qualifier at the beginning of this paragraph should give it away: This can only be a small indicator amongst many. Most of the assumptions probably aren't correct. Given time and space constraints, I was not able to explore the parameter space further. Additional research could show that the starting conditions are merely a special case in which the Preemption view isn't as truth-directed, but in other cases, it is. Furthermore, there are different interpretations to what the preemptive updating rule should amount to. More on that and other caveats to this result in the next section.
 
 \section{Caveats, Objections and Where to Go From Here}
+
 \begin{itemize}
+
     \item The original argument by c and g is meant to give a rationality requirement for a single or at most a few time steps. It is not clear if this is what they mean in the long run. For example: suppose i already adjusted my credence according to the authority. On a alter authority testimony, should i disregard or regard the previous authority testimony? If i alter the strategy such that it becomes classical updating again, but only with the authorities' testimony, it might be quite truth-conducive again.
 
     \item the starting trust functions are kind of arbitrarily set and may influence the results. Should be put in parameter space and explored! especially the shape of the curve. Or even other functions normalized to integrate to one?
     \item The issue with repeated testimony of the same source regarded as independent
     \item Method of communication can be explored.
     \item Most importantly: No higher order evidence
+    \item that for these purposes I assume Probabilism for rational credences, while it is possible that Constantin and Grundmann do not favor these types of credences.
 \end{itemize}
 
 \printbibliography{}
