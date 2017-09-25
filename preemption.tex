@@ -91,22 +91,7 @@ This is not the place to to give an attempt at a general account of undercutting
 
 \subsection{Evaluation}
 
-What kind of argument can the present paper deliver? In brief, it strives to be a normative one, of course, since the question which rational strategy to employ is a strictly normative one. The ground for this normative claim are teleological: veritist epistemology assumes truth to be a fundamental epistemic value, and since truth-directed strategies promote this value, they should be followed. This consequentialist picture is, of course, not without substantial debate,\footnote{cf. \textcite{Goldman2001} for an argument for a veritistic approach to epistemic normativity. A very readable argument against is presented in \textcite{Berker2013}.} this is philosophy after all, but the present paper is not the place to discuss this (albeit interesting) issue. The veritist account, of course, lends itself quite ideally to formal treatment, as it gives the researcher tools and methods to quantify the epistemic value of doxastic attitudes and with a consequentialist approach to normativity derive normative claims.
-
-
-How to deal with expert testimony? Mention Goldman, Elga etc.
-
-Show position by Kelly
-
-Show position of Constantin and Grundmann
-
-
-
-Show need to make this precise. In the case of preemption view, how to model? 
-kelly's TEV for credences is just the same as Bayesianism 
-
-How to evaluate the rational strategy formally?
-Epistemic Value!
+What kind of argument can the present paper deliver? In brief, it strives to be a normative one, of course, since the question which rational strategy to employ is a strictly normative one. The ground for this normative claim are teleological: veritist epistemology assumes truth to be a fundamental epistemic value, and since truth-directed strategies promote this value, they should be followed. This consequentialist picture is, of course, not without substantial debate,\footnote{cf. \textcite{Goldman2001} for an argument for a veritistic approach to epistemic normativity. A very readable argument against is presented in \textcite{Berker2013}.} this is philosophy after all, but the present paper is not the place to discuss this (albeit interesting) issue. The veritist account, of course, lends itself quite ideally to formal treatment, as it gives the researcher tools and methods to quantify the epistemic value of doxastic attitudes and with a consequentialist approach to normativity derive normative claims. 
 
 \section{Model Description}
 
@@ -310,18 +295,25 @@ The experiment executes 10000 such runs, varying the starting conditions as desc
 Fig.~\ref{fig:res} gives a scatter plot of the results at $t=10$. After 10000 runs, the average Brier score of the preemption strategist was $\sim0.0254$, compared to the Bayesian's $\sim0.0076$, a stunning difference. An intuitive explanation for this result can be found by a look at Fig.~\ref{fig:run}, bottom right. Agent $\beta$ starts out Bayesian and quickly reaches a credence close to 1. Accordingly, her trust in the expert rises. As soon as the authority-threshold is reached, she drops her credence to $\langle \tau^0_{\varepsilon\a} \rangle $, then continuing to adapt her credence to the trust level. This procedure is a lot slower to approach 1 than the Bayesian, such that after 10 steps the Brier score is higher. Note how the agent's own inquiries do not have any visible effect on the credence at all, mostly due to the low trust level the laypersons have towards there own inquiries.
 
 What does this result suggest? Given all the assumptions that were made are actually accurate, this results speaks against respecting Preemption and recommends instead to update like classically Bayesian. There is no evidence from a veritist standpoint to favor the Preemption view, this much is correct. Is the Total Evidence View correct for credences, after all? The big qualifier at the beginning of this paragraph should give it away: This can only be a small indicator amongst many. Most of the assumptions probably aren't correct. Given time and space constraints, I was not able to explore the parameter space further. Additional research could show that the starting conditions are merely a special case in which the Preemption view isn't as truth-directed, but in other cases, it is. Furthermore, there are different interpretations to what the preemptive updating rule should amount to. More on that and other caveats to this result in the next section.
-
+\newpage
 \section{Caveats, Objections and Where to Go From Here}
+
+Unsurprisingly, the proponent of the Preemption View has lots of metaphorical arrows in her quiver to shoot holes in this paper's result. I'll go through them one by one.
+
+First, it may be the case that Constantin and Grundmann don't intend to have this principle apply to degrees of belief as probability functions, they never explicitly state so. There are other possibilities to talk about credences, after all. But since using the probability framework seems very desirable, it would be too boring a cop-out.
+
+Second, as noted before, the model might be to simplistic: it does not respect higher-order-evidence \i{other} for or against trusting an authority than originating directly from the target proposition $p$ through the update of the trust function. But such evidence would be plausible, of course: It is a central tenet of the account to grant the ability to gather second-order evidence and denouncing an epistemic authority when the trust level drops. At present, the model only incorporates this by the comparison of credences in the target proposition $p$. Hence, the recognizing of an expert as an authority is very heavily idealised in the model.
+
+Third, the argument Constantin and Grundmann put forward is supposed to provide a local, immediate strategy, as the examples unanimously speak of few time steps. There is no focus on ``the long run'', if you will, like this model assumes. Perhaps, one could argue, agent based models aren't the best fit then, as they shine once the complexity of a model surpasses analytic tractability. But then, if the strategies are any good, they should survive the test in the long run as well. It'd definitely be worthwhile do examine shorter time frames, too.   
+
+Fourth, the present experiment as designed above does not include the trust function itself in the parameter space of the model. Variating the initial trust function could have significant impact on model behaviour, but due to time constraints, aren't included in the present experiments. A very quick rundown of why that matters: The initial shape of the curve of the trust function heavily affects the expected value's disposition to change after a time step.\footnote{cf. \textcite{Angere2010}.} The narrower the initial distribution is, the less responsive it is to change, given the same parameters of credence and source message.
 
 \begin{itemize}
 
-    \item The original argument by c and g is meant to give a rationality requirement for a single or at most a few time steps. It is not clear if this is what they mean in the long run. For example: suppose i already adjusted my credence according to the authority. On a alter authority testimony, should i disregard or regard the previous authority testimony? If i alter the strategy such that it becomes classical updating again, but only with the authorities' testimony, it might be quite truth-conducive again.
 
     \item the starting trust functions are kind of arbitrarily set and may influence the results. Should be put in parameter space and explored! especially the shape of the curve. Or even other functions normalized to integrate to one?
     \item The issue with repeated testimony of the same source regarded as independent
     \item Method of communication can be explored.
-    \item Most importantly: No higher order evidence
-    \item that for these purposes I assume Probabilism for rational credences, while it is possible that Constantin and Grundmann do not favor these types of credences.
 \end{itemize}
 
 \printbibliography{}
