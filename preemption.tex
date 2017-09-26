@@ -296,7 +296,7 @@ Fig.~\ref{fig:res} gives a scatter plot of the results at $t=10$. After 10000 ru
 
 What does this result suggest? Given all the assumptions that were made are actually accurate, this results speaks against respecting Preemption and recommends instead to update like classically Bayesian. There is no evidence from a veritist standpoint to favor the Preemption view, this much is correct. Is the Total Evidence View correct for credences, after all? The big qualifier at the beginning of this paragraph should give it away: This can only be a small indicator amongst many. Most of the assumptions probably aren't correct. Given time and space constraints, I was not able to explore the parameter space further. Additional research could show that the starting conditions are merely a special case in which the Preemption view isn't as truth-directed, but in other cases, it is. Furthermore, there are different interpretations to what the preemptive updating rule should amount to. More on that and other caveats to this result in the next section.
 \newpage
-\section{Caveats, Objections and Where to Go From Here}
+\section{Assumptions, Objections and Where to Go From Here}
 
 Unsurprisingly, the proponent of the Preemption View has lots of metaphorical arrows in her quiver to shoot holes in this paper's result. I'll go through them one by one.
 
@@ -306,15 +306,13 @@ Second, as noted before, the model might be to simplistic: it does not respect h
 
 Third, the argument Constantin and Grundmann put forward is supposed to provide a local, immediate strategy, as the examples unanimously speak of few time steps. There is no focus on ``the long run'', if you will, like this model assumes. Perhaps, one could argue, agent based models aren't the best fit then, as they shine once the complexity of a model surpasses analytic tractability. But then, if the strategies are any good, they should survive the test in the long run as well. It'd definitely be worthwhile do examine shorter time frames, too.   
 
-Fourth, the present experiment as designed above does not include the trust function itself in the parameter space of the model. Variating the initial trust function could have significant impact on model behaviour, but due to time constraints, aren't included in the present experiments. A very quick rundown of why that matters: The initial shape of the curve of the trust function heavily affects the expected value's disposition to change after a time step.\footnote{cf. \textcite{Angere2010}.} The narrower the initial distribution is, the less responsive it is to change, given the same parameters of credence and source message.
+Fourth, the present experiment as designed above does not include the trust function itself in the parameter space of the model. Variating the initial trust function could have significant impact on model behaviour, but due to time constraints, aren't included in the present experiments. A very quick rundown of why that matters: The initial shape of the curve of the trust function heavily affects the expected value's disposition to change after a time step.\footnote{cf. \textcite{Angere2010}.} The narrower the initial distribution is, the less responsive it is to change, given the same parameters of credence and source message. This is directly reflected in the credence the preemption strategist adopts, potentially rendering her doxastic state less epistemically valuable in this model. A detailed analysis of this particular property of the model could be very helpful.
 
-\begin{itemize}
+Fifth, and among the gravest criticism, is the following underlying assumption which you might or might not have noticed: Consecutive testimonies of the same expert are treated as probabilistically independent. This seems obviously false. However, there is an argument by \textcite{Olsson2013b} Olsson to defend this by changing our view of the social network: Instead of interpreting the goings-on in between agents as mere testimony, he proposes to view them as \i{arguments} put forward instead. That is, each time a source message is sent, it is assumed to have be presented as a new argument, rendering it not as mere repetition but as genuine new information, potentially probabilistically independent from the last. Granted, this is not necessarily fully convincing, as it is somewhat implausible that this many independent, new arguments are being put forward. To lessen the burden of implausibility, I added the constraint in the model that an expert only shares her credence when it changed, that is, when she received new evidence in form of an inquiry. This helps alleviate the worry somewhat, but I still take it as a valid criticism to the model.
 
+These are the lines of responses a proponent of the Preemption View could pursue that I see so far. 
 
-    \item the starting trust functions are kind of arbitrarily set and may influence the results. Should be put in parameter space and explored! especially the shape of the curve. Or even other functions normalized to integrate to one?
-    \item The issue with repeated testimony of the same source regarded as independent
-    \item Method of communication can be explored.
-\end{itemize}
+Finally, there is another direction in which the model could be expanded quite sensibly: Instead of modeling testimony binary, we may allow for statements of the sort `the probability for rain tomorrow is 57\%' or `I am 80\% confident that the butler did it', meaning that something like the source's credence is communicated. Since this potentially requires a different Bayesian treatment, the model would have to be expanded in this direction. Definitely something to look forward to in another paper. 
 
 \printbibliography{}
 \end{document}
